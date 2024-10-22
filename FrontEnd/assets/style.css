@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #fffef8;
 }
 ol, ul {
 	list-style: none;
@@ -211,6 +212,46 @@ input[type="submit"]{
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
+	height: 200px;
+	
 }
 
+#login {
+	width: 35%;
+margin: auto;
+}
+#login > * {
+	text-align: center;
+
+}
+#login h2{
+	margin-bottom: 20px;
+    margin-top: 150px;
+}
+#login label {
+	margin: 2em 0 1em 0;
+}
+#login form {
+	text-align: left;
+	margin-top:20px;
+	display: flex;
+	flex-direction: column;
+}
+a {
+    color: black;
+    text-decoration: none;
+}
+input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#pwd {
+	text-decoration: underline;
+}
+#error{
+	color: red;
+	margin-top: 30px;
+}

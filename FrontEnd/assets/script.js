@@ -58,18 +58,8 @@ let filt = fetch("http://localhost:5678/api/categories")
     })
   })
   .catch(error => console.error("Erreur:", error));
-  const loginTest = { email: 'sophie.bluel@test.tld', password:'S0phie' };
-
-  const request = new Request('/api/users/login', {
-    method: 'POST',
-    body: JSON.stringify(loginTest),
-    headers: {
-      'Content-Type': 'application/json',
-      'accept': 'application/json'
-      }
-  });
   
-  const response =  fetch(request);
+ 
 
 
 
