@@ -22,6 +22,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -31,6 +32,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	background-color: #fffef8;
+	
 }
 ol, ul {
 	list-style: none;
@@ -53,13 +55,13 @@ p {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: 35px;
-	
-}
- i {
+	margin-top: 20px;
+	}
+ button {
 	display: flex;
 	border: 1px, solid, #1D6154;
 	border-radius: 60px;
+	background-color: #fffef8;
 	color: #1D6154;
 	justify-content: center;
 	align-items: center;
@@ -81,11 +83,13 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	margin-top: 70px;
 }
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	
+	
 }
 section {
 	margin: 50px 0
@@ -111,7 +115,8 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
+	
 }
 nav ul {
 	display: flex;
@@ -254,4 +259,139 @@ input {
 #error{
 	color: red;
 	margin-top: 30px;
+}
+.edit {
+	background-color: black;
+	color: white;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	
+}
+i {
+	padding-right: 10px;
+}
+
+.edit p {
+	margin-top: 0;
+}
+
+#portfolio h2 {
+	margin-bottom: 50px;
+	margin-top: 80px;
+}
+#portfolio p {
+	margin-bottom: 30px;
+	padding-top: 10px;
+}
+
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	margin-left: 80px;
+    
+}
+
+#edit-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 30px;
+	margin-left: 20px;
+}
+#edit-button i {
+    margin-right: 1px; /
+	
+	
+}
+
+
+
+.modal {
+position: fixed;
+display: flex;
+align-items: center;
+justify-content: center;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.09);
+
+}
+.modal-wrapper {
+	
+	width: 630px;
+	height: 688px;
+	background-color: white;
+	cursor: default;
+
+}
+.modal-wrapper h1 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 40px;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	color: black;
+}
+.modal-close {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	border: none;
+	width: 100%;
+	margin: 0;
+	padding-top: 30px;
+
+}
+.modal-close i {
+	cursor: pointer;
+	font-size: 24px;
+}
+
+#galModal img {
+	width: 76px;
+	height: 103px;
+
+}
+
+#galModal {
+	display: grid;
+	grid-template-columns: 77px 77px 77px 77px 77px ;
+	gap: 10px;
+	justify-items: center;
+	align-items: center;
+	justify-content: center;
+	margin-top: 50px;
+	margin-bottom: 60px;
+	
+	
+	
+}
+
+#addPhoto  {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+}
+#addPhoto button{
+	background-color: #1D6154;
+	color: white;
+	width: 237px;
+	height: 36px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
 }

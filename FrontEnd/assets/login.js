@@ -23,11 +23,12 @@ async function connect(event) {
         
         let result = await response.json();
         console.log(result);
+        window.sessionStorage.loged = true;
         window.location.href = "index.html";
         
     } else {
        
-        messError.textContent = "Erreur de connexion, veuillez vérifier vos identifiants.";
+        messError.textContent = "Erreur dans l’identifiant ou le mot de passe";
         console.error("Erreur de connexion :", response.status);
     }
 }

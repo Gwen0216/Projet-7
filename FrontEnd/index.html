@@ -8,16 +8,17 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/28c40469d1.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-<header>
+<header>	
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li><a href="#portfolio">projets</a></li>
 			<li><a href="#contact">contact</a></li>
-			<li><a href="login.html">login</a></li>
+			<li><a id="log" href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -35,12 +36,30 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		
+		<div id="pos" >
+			<h2>Mes Projets</h2>
+			<div id="edit-button">
+				<a href="#modal1" class="js-modal" id="modal">
+					<i class="fa-regular fa-pen-to-square"></i> Modifier
+				</a>
+            <aside id="modal1" class="modal" aria-hidden="true" role="dialog" style="display: none;" >
+                <div class="modal-wrapper modal-stop">
+					<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+                    <h1 >Galerie photo</h1>
+					<div id="galModal"></div>
+					<div id="addPhoto">
+						<button >Ajouter une photo</button>
+					</div>
+					
+                    </div>
+				</aside>
+				</div>
 		<p></p>
+	</div>
 	
 		<div class="gallery">
 			</div>
+			
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
