@@ -361,29 +361,34 @@ background: rgba(0, 0, 0, 0.09);
 }
 
 #galModal img {
-	width: 76px;
+	width: 77px;
 	height: 103px;
-
-}
+	}
 
 #galModal {
 	display: grid;
 	grid-template-columns: 77px 77px 77px 77px 77px ;
-	gap: 10px;
+	row-gap: 30px;
+	column-gap: 10px;
 	justify-items: center;
 	align-items: center;
 	justify-content: center;
 	margin-top: 50px;
 	margin-bottom: 60px;
 	
-	
-	
+}
+.modal-wrapper hr {
+	margin-top: 20px ;
+	width:420px ;
 }
 
 #addPhoto  {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin-top: 30px;
+	flex-direction: column;
+	
 	
 }
 #addPhoto button{
@@ -394,4 +399,71 @@ background: rgba(0, 0, 0, 0.09);
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 14px;
+	cursor: pointer;
+	
+	
 }
+.img-container {
+	position: relative;
+	display: inline-block;
+}
+
+ .img-container img {
+	display: block;
+ }
+
+ .img-container i {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	font-size: 11px;
+	background-color: black;
+	color: white;
+	cursor: pointer;
+	padding: 4px;
+
+ }
+#add-photo-form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	
+ }
+
+.modal-content hr {
+margin-top: 50px;
+}
+.modal-content label {
+	width:420px;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+}
+
+ #add-photo-form select {
+	width: 420px;
+	height: 51px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+ }
+ #add-photo-form label {
+	margin: 2em 0 1em 0;
+
+ }
+ #add-photo-form input {
+	width: 420px;
+	height: 51px;
+ }
+
+ #add-photo-form #photo {
+	width: 420px;
+	height: 169px;
+	
+ }
+ #add-photo-form {
+	margin-top: 0px;
+ }

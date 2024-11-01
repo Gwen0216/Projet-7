@@ -59,7 +59,7 @@ let filt = fetch("http://localhost:5678/api/categories")
         }
 
       });
-
+      
     })
   })
   .catch(error => console.error("Erreur:", error));
@@ -122,9 +122,9 @@ const closeModal = function(e){
   modal.removeEventListener('click', closeModal)
   modal.querySelector('.modal-close').removeEventListener('click', closeModal)
   modal.querySelector('.modal-stop').removeEventListener('click', stopPropagation)
-  modal = null
-  
-}
+  modal = null;
+  location.reload();
+};
 const stopPropagation = function (e) {
   e.stopPropagation()
 }
@@ -135,19 +135,113 @@ document.querySelectorAll('.js-modal').forEach(a => {
 })
 
 
-let galleryModal = fetch("http://localhost:5678/api/works")
+//delete
+const deleteImage = (id, container) => {
+  fetch(`http://localhost:5678/api/works/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDM3NjIwMywiZXhwIjoxNzMwNDYyNjAzfQ.uKE35TR7Sj_bOqGScNqlc66SBAleRVPn60gfopar_UM'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      container.remove(); 
+      const galleryItem = document.querySelector(`#portfolio .gallery figure[data-id="${id}"]`);
+      if (galleryItem) galleryItem.remove();
+      console.log("Image supprimée avec succès.");
+    } else {
+      console.error("Erreur lors de la suppression de l'image.");
+    }
+  })
+  .catch(error => console.error("Erreur:", error));
+};
+
+
+fetch("http://localhost:5678/api/works")
   .then(response => response.json())
   .then(data => {
     const gall = document.getElementById("galModal");
 
     data.forEach(item => {
-      gall.innerHTML += `
-        <figure data-category="${item.category.id}">
+      
+      const imgContainer = document.createElement('div');
+      imgContainer.classList.add('img-container');
+      imgContainer.innerHTML = `
+        <figure data-id="${item.id}" data-category="${item.category.id}">
           <img src="${item.imageUrl}" alt="${item.title}">
+          <i class="fa-solid fa-trash-can delete-icon" data-id="${item.id}"></i>
         </figure>
       `;
+
+     gall.appendChild(imgContainer);
+
+      
+      const deleteIcon = imgContainer.querySelector('.delete-icon');
+      deleteIcon.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const imageId = event.target.getAttribute('data-id');
+        deleteImage(imageId, imgContainer); 
+      });
     });
   })
   .catch(error => console.error("Erreur:", error));
+
+  //modal2
+  const addModal = async function() {
+    
+    let categories = [];
+    try {
+        const response = await fetch("http://localhost:5678/api/categories", {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        if (response.ok) {
+            categories = await response.json();
+        } else {
+            console.error("Erreur lors de la récupération des catégories");
+        }
+    } catch (error) {
+        console.error("Erreur réseau ou serveur :", error);
+    }
+
+    
+    const categoryOptions = categories.map(category => 
+        `<option value="${category.id}">${category.name}</option>`
+    ).join("");
+
+    
+    document.querySelector(".modal-wrapper").innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <h1>Ajout photo</h1>
+            <form id="add-photo-form" action="#" method="post">
+                <label for="photo"></label>
+                <input type="file" name="photo" id="photo" accept="image/*">
+            <label for="title">Titre</label>
+                <input type="text" name="title" id="title">
+                <label for="category">Catégorie</label>
+                <select name="category" id="category" >
+                <option value="" selected disabled hidden></option>
+                    ${categoryOptions}
+                </select>
+
+                
+            </form>
+            <hr>
+            <div id="addPhoto">
+                <button id="validateButton">Valider</button>
+            </div>
+        </div>
+    `;
+
+   document.querySelector(".modal-close").addEventListener("click", closeModal);
+  
+};
+
+
+ const buttonAdd = document.querySelector("#addPhoto button");
+buttonAdd.addEventListener("click", addModal);
 
 
