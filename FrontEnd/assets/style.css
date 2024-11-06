@@ -308,8 +308,7 @@ i {
 	margin-left: 20px;
 }
 #edit-button i {
-    margin-right: 1px; /
-	
+    margin-right: 1px; 
 	
 }
 
@@ -325,15 +324,21 @@ left: 0;
 width: 100%;
 height: 100%;
 background: rgba(0, 0, 0, 0.09);
+overflow: auto;
+}
+.modGallery {
+	
+	
+	background-color: white;
+	cursor: default;
+	overflow:auto;
+	
+	
 
 }
 .modal-wrapper {
-	
 	width: 630px;
-	height: 688px;
-	background-color: white;
-	cursor: default;
-
+	height: 670px;
 }
 .modal-wrapper h1 {
 	display: flex;
@@ -344,7 +349,9 @@ background: rgba(0, 0, 0, 0.09);
 	font-weight: 400;
 	font-size: 26px;
 	color: black;
+	margin-top: 10px;
 }
+
 .modal-close {
 	display: flex;
 	justify-content: flex-end;
@@ -362,7 +369,7 @@ background: rgba(0, 0, 0, 0.09);
 
 #galModal img {
 	width: 77px;
-	height: 103px;
+	min-height: 103px;
 	}
 
 #galModal {
@@ -450,8 +457,9 @@ margin-top: 50px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
  }
- #add-photo-form label {
+ #add-photo-form label  {
 	margin: 2em 0 1em 0;
+	margin-top: 10px;
 
  }
  #add-photo-form input {
@@ -459,11 +467,75 @@ margin-top: 50px;
 	height: 51px;
  }
 
- #add-photo-form #photo {
-	width: 420px;
-	height: 169px;
+
+ .fa-image:before {
+	font-size: 76px;
+	color: #b9c5cc;
 	
  }
- #add-photo-form {
-	margin-top: 0px;
- }
+ .styleAdd {
+	background-color: #e8f1f6;
+	width: 420px;
+	height: 169px;
+	display: flex;
+	flex-direction: column;
+	justify-content:center ;
+	align-items: center;
+	 }
+ #photo {
+	display: none;
+}
+#addPhotoButton {
+	width: 173px;
+	height: 36px;
+	background-color: #cbd6dc;
+	color: #306685;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+.styleAdd label {
+	display:flex ;
+	align-items: center;
+	justify-content: center;
+}
+.styleAdd p {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 10px;
+}
+
+.modal2 {
+	display: none;
+}
+#addPhoto1 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#validateButton {
+	background-color: #A7A7A7;
+	color: white;
+	width: 237px;
+	height: 36px;
+	
+}
+.contModal2 {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.modal-back {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: none;
+    width: 100%;
+    margin: 0;
+    padding-top: 30px;
+	font-size: 21px;
+}

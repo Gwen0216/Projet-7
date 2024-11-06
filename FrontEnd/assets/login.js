@@ -23,6 +23,8 @@ async function connect(event) {
         
         let result = await response.json();
         console.log(result);
+        const token = result.token; 
+        window.sessionStorage.setItem('token', token);
         window.sessionStorage.loged = true;
         window.location.href = "index.html";
         

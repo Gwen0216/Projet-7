@@ -6,7 +6,7 @@ let gallerimg = fetch("http://localhost:5678/api/works")
 
     data.forEach(item => {
       gallery.innerHTML += `
-        <figure data-category="${item.category.id}">
+        <figure data-id="${item.id}" data-category="${item.category.id}">
           <img src="${item.imageUrl}" alt="${item.title}">
           <figcaption>${item.title} - ${item.category.name}</figcaption>
         </figure>
@@ -19,15 +19,12 @@ let gallerimg = fetch("http://localhost:5678/api/works")
 let filt = fetch("http://localhost:5678/api/categories")
   .then(response => response.json())
   .then(dataFil => {
-    const filters = document.querySelector("#portfolio p")
+    const filters = document.querySelector("#portfolio #filt1")
 
     if (window.sessionStorage.loged === "true") {
       filters.style.display = 'none'; 
     } else {
       filters.innerHTML += `<button id="all" data-category="all">Tous</button>`;}
-
-    
-
 
     dataFil.forEach(item => {
       filters.innerHTML += `
@@ -99,6 +96,8 @@ if (window.sessionStorage.loged === "true") {
   modif.style.display = 'none';}
  
 //modal//
+
+
 let modal = null
 
 const openModal = function(e){
@@ -111,6 +110,7 @@ const openModal = function(e){
   modal.addEventListener('click', closeModal)
   modal.querySelector('.modal-close').addEventListener('click', closeModal)
   modal.querySelector('.modal-stop').addEventListener('click', stopPropagation)
+  modal.querySelector('.modal2').addEventListener('click', stopPropagation)
 }
 
 const closeModal = function(e){
@@ -122,8 +122,9 @@ const closeModal = function(e){
   modal.removeEventListener('click', closeModal)
   modal.querySelector('.modal-close').removeEventListener('click', closeModal)
   modal.querySelector('.modal-stop').removeEventListener('click', stopPropagation)
+  modal.querySelector('.modal2').removeEventListener('click', stopPropagation)
   modal = null;
-  location.reload();
+  
 };
 const stopPropagation = function (e) {
   e.stopPropagation()
@@ -136,11 +137,13 @@ document.querySelectorAll('.js-modal').forEach(a => {
 
 
 //delete
+const token = window.sessionStorage.getItem('token');
+
 const deleteImage = (id, container) => {
   fetch(`http://localhost:5678/api/works/${id}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMDM3NjIwMywiZXhwIjoxNzMwNDYyNjAzfQ.uKE35TR7Sj_bOqGScNqlc66SBAleRVPn60gfopar_UM'
+      'Authorization':  `Bearer ${token}`,
     }
   })
   .then(response => {
@@ -187,61 +190,58 @@ fetch("http://localhost:5678/api/works")
   .catch(error => console.error("Erreur:", error));
 
   //modal2
-  const addModal = async function() {
-    
-    let categories = [];
+  async function addModal() {
     try {
-        const response = await fetch("http://localhost:5678/api/categories", {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-        if (response.ok) {
-            categories = await response.json();
-        } else {
-            console.error("Erreur lors de la récupération des catégories");
-        }
+      const response = await fetch("http://localhost:5678/api/categories");
+      if (response.ok) {
+        const categories = await response.json();
+        const categoryOptions = categories.map(category => 
+          `<option value="${category.id}">${category.name}</option>`
+        ).join("");
+        
+        document.querySelector("#category").innerHTML = `<option value="" selected disabled hidden></option>${categoryOptions}`;
+      } else {
+        console.error("Erreur lors de la récupération des catégories");
+      }
     } catch (error) {
-        console.error("Erreur réseau ou serveur :", error);
+      console.error("Erreur réseau ou serveur :", error);
     }
-
+  }
     
-    const categoryOptions = categories.map(category => 
-        `<option value="${category.id}">${category.name}</option>`
-    ).join("");
-
-    
-    document.querySelector(".modal-wrapper").innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
-            <h1>Ajout photo</h1>
-            <form id="add-photo-form" action="#" method="post">
-                <label for="photo"></label>
-                <input type="file" name="photo" id="photo" accept="image/*">
-            <label for="title">Titre</label>
-                <input type="text" name="title" id="title">
-                <label for="category">Catégorie</label>
-                <select name="category" id="category" >
-                <option value="" selected disabled hidden></option>
-                    ${categoryOptions}
-                </select>
-
-                
-            </form>
-            <hr>
-            <div id="addPhoto">
-                <button id="validateButton">Valider</button>
-            </div>
-        </div>
-    `;
-
-   document.querySelector(".modal-close").addEventListener("click", closeModal);
   
-};
+  
+const addPhoto = document.querySelector("#addPhoto");
+const backMod = document.querySelector(".modal-back");
 
+addPhoto.addEventListener("click", switchMod);
+backMod.addEventListener("click", switchMod);
 
- const buttonAdd = document.querySelector("#addPhoto button");
-buttonAdd.addEventListener("click", addModal);
+async function switchMod(){
+  
+  const modalGal = document.querySelector(".modal-stop");
+  const modalAdd = document.querySelector(".modal2");
+
+  if (
+    modalGal.style.display ==="block" ||
+    modalGal.style.display ===""
+  ) {
+    modalGal.style.display="none";
+    modalAdd.style.display = "block";
+
+    await addModal();
+
+  } else {
+    modalGal.style.display="block";
+    modalAdd.style.display="none";
+    
+  }
+}
+  
+document.querySelectorAll(".modal-close").forEach(closeButton => {
+  closeButton.addEventListener("click", closeModal);
+});
+
+ 
+
 
 
