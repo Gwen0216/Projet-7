@@ -344,12 +344,11 @@ overflow: auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 40px;
 	font-family: 'Work Sans';
 	font-weight: 400;
 	font-size: 26px;
 	color: black;
-	margin-top: 10px;
+	margin-top: 7%;
 }
 
 .modal-close {
@@ -385,7 +384,7 @@ overflow: auto;
 	
 }
 .modal-wrapper hr {
-	margin-top: 20px ;
+	margin-top: 30px ;
 	width:420px ;
 }
 
@@ -473,6 +472,11 @@ margin-top: 50px;
 	color: #b9c5cc;
 	
  }
+ #styleAddContainer img {
+	max-width: 420px;
+	max-height: 169px;
+
+ }
  .styleAdd {
 	background-color: #e8f1f6;
 	width: 420px;
@@ -482,7 +486,7 @@ margin-top: 50px;
 	justify-content:center ;
 	align-items: center;
 	 }
- #photo {
+ #photoAdd {
 	display: none;
 }
 #addPhotoButton {
@@ -516,6 +520,7 @@ margin-top: 50px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 20px;
 }
 #validateButton {
 	background-color: #A7A7A7;

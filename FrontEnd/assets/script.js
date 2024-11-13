@@ -111,11 +111,12 @@ const openModal = function(e){
   modal.querySelector('.modal-close').addEventListener('click', closeModal)
   modal.querySelector('.modal-stop').addEventListener('click', stopPropagation)
   modal.querySelector('.modal2').addEventListener('click', stopPropagation)
+  openModalGall();
 }
 
 const closeModal = function(e){
   if (modal === null) return
-  e.preventDefault()
+  if (e) e.preventDefault()
   modal.style.display ="none"
   modal.setAttribute('aria-hidden', 'true')
   modal.removeAttribute('aria-modal')
@@ -236,12 +237,206 @@ async function switchMod(){
     
   }
 }
+async function openModalGall(){
   
+  const modalGal = document.querySelector(".modal-stop");
+  const modalAdd = document.querySelector(".modal2");
+
+  
+   
+    modalGal.style.display="block";
+    modalAdd.style.display = "none";
+
+    await addModal();
+
+  
+} 
 document.querySelectorAll(".modal-close").forEach(closeButton => {
   closeButton.addEventListener("click", closeModal);
 });
 
+
+
+const addPhotoButton = document.getElementById("addPhotoButton");
+const modalAdd = document.querySelector(".modal2");  // Modale d'ajout de photo
+const styleAddContainer = document.getElementById("add-photo-form");
+const backButton = document.querySelector(".modal-back");  // Bouton retour
+const closeButton = document.querySelector(".modal-close"); // Bouton fermeture (croix)
+
+
+
+  
+function handlePhotoUpload() {
+  
+  const styleAddContainer = document.getElementById("styleAddContainer");
+  
+  const img = document.createElement("img");
+  const fileInput = document.getElementById("photoAdd");
+  let file; // On ajoutera dans cette variable la photo qui a été uploadée.
+  fileInput.style.display = "none";
+  fileInput.addEventListener("change", function (event) {
+    file = event.target.files[0];
+    const maxFileSize = 4 * 1024 * 1024;
+
+    if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+      if (file.size > maxFileSize) {
+        alert("La taille de l'image ne doit pas dépasser 4 Mo.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // Effacer seulement l'input et le bouton sans toucher au titre et à la catégorie
+        const inputAndButton = styleAddContainer.querySelectorAll('input, button, label, p');
+        inputAndButton.forEach(el => el.style.display = 'none');  // Masquer l'input et le bouton
+  
+        // Créer un élément image et l'ajouter dans le #styleAddContainer
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.alt = "Image téléchargée";
+        img.style.maxWidth = "100%";  // Ajuste la taille de l'image si nécessaire
+        img.style.maxHeight = "169px"; // Espace entre les images
+        styleAddContainer.appendChild(img);  // Ajouter l'image dans le conteneur
+      };
+  
+      // Lire le fichier sélectionné
+      reader.readAsDataURL(file);
+    } else {
+      alert("Veuillez sélectionner une image.");
+    }
+  });
+  
+  }
+
+  function setupAddPhotoForm() {
+    const addPictureForm = document.querySelector(".modal2");
+  
+    addPictureForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const submitButton = document.querySelector("#validateButton");
+      submitButton.disabled = true;
+  
+      const fileInput = document.getElementById("photoAdd");
+      const titleInput = document.getElementById("title");
+      const categorySelect = document.getElementById("category");
+  
+      const file = fileInput.files[0];
+      const titleValue = titleInput.value.trim();
+      const selectedCategory = categorySelect.value;
+      let errorMessage = "";
+  
+      if (!file) errorMessage += "Veuillez sélectionner une image.\n";
+      if (!titleValue) errorMessage += "Veuillez saisir un titre.\n";
+      if (!selectedCategory) errorMessage += "Veuillez sélectionner une catégorie.\n";
+  
+      if (errorMessage) {
+        alert(errorMessage);
+        submitButton.disabled = false;
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("title", titleValue);
+      formData.append("category", selectedCategory);
+  
+      try {
+        const response = await fetch("http://localhost:5678/api/works", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token },
+          body: formData,
+        });
+  
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("Erreur lors de l'ajout de la photo : ", errorText);
+        } else {
+          const data = await response.json();
+          console.log("Données reçues : ", data);
+  
+          if (data && data.id && data.imageUrl && data.title && data.categoryId) {
+            const newImageElement = document.createElement('figure');
+            newImageElement.setAttribute('data-id', data.id);
+            newImageElement.setAttribute('data-category', data.categoryId);
+            newImageElement.innerHTML = `
+              <img src="${data.imageUrl}" alt="${data.title}">
+              <figcaption>${data.title} - ${data.categoryId}</figcaption>
+            `;
+            const gallery = document.querySelector("#portfolio .gallery");
+            gallery.appendChild(newImageElement);
+  
+            closeModal();
+          } else {
+            console.error("Les données de l'image sont incomplètes ou invalides.");
+          }
+        }
+      } catch (error) {
+        console.error("Erreur réseau : ", error);
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  }
+  
+
+
+function resetAddPhotoModal() {
+  styleAddContainer.innerHTML = `
+    <div class="styleAdd" id="styleAddContainer">
+      <label for="file"><i class="fa-regular fa-image"></i></label>
+      <input type="file" name="photo" id="photoAdd" accept="image/*">
+      <button type="button" id="addPhotoButton">+ ajouter photo</button>
+      <p>jpg, png : 4mo max</p>
+    </div>
+    <label for="title">Titre</label>
+    <input type="text" name="title" id="title">
+    <label for="category">Catégorie</label>
+    <select name="category" id="category">
+    </select>
+    <hr>
+            <div id="addPhoto1">
+                <button type="submit" id="validateButton" >Valider</button>
+            </div>
+  `;
+
+  addModal();
+
  
+  handlePhotoUpload();
+  setupAddPhotoForm();
+  
+  const newAddPhotoButton = document.getElementById("addPhotoButton");
+  newAddPhotoButton.addEventListener("click", () => {
+    document.getElementById("photoAdd").click();
+  });
+}
+
+
+
+backButton.addEventListener("click", () => {
+  modalAdd.style.display = "none";
+  resetAddPhotoModal(); 
+});
+
+
+closeButton.addEventListener("click", () => {
+  modalAdd.style.display = "none";
+  resetAddPhotoModal(); 
+});
+
+
+document.querySelectorAll('.js-modal').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(e.target.getAttribute('href'));
+    target.style.display = null;
+    target.removeAttribute('aria-hidden');
+    target.setAttribute('aria-modal', 'true');
+    modal = target;
+    resetAddPhotoModal(); 
+    modal.addEventListener('click', closeModal);
+  });
+});
+
 
 
 

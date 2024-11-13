@@ -61,23 +61,24 @@
             		<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
             	</div>
             <h1>Ajout photo</h1>
-            <form id="add-photo-form" action="#" method="post">
+            <form id="add-photo-form" action="#" method="post" enctype="multipart/form-data">
            		 <div class=styleAdd id="styleAddContainer">
-                	<label for="photo"><i class="fa-regular fa-image"></i></label>
-                	<input type="file" name="photo" id="photo" accept="image/*">
-                	<button type="button" id="addPhotoButton">+ ajouter photo</button>
-                	<p>jpg, png : 4mo max</p>
-                </div>
+					<label for="file"><i class="fa-regular fa-image  "></i></label>
+                	<input  type="file" name="photo" id="photoAdd" accept="image/*">
+                	<button  type="button" id="addPhotoButton">+ ajouter photo</button>
+                	<p >jpg, png : 4mo max</p>
+				 </div>
             		<label for="title">Titre</label>
                 	<input type="text" name="title" id="title">
                	 	<label for="category">Catégorie</label>
                	 	<select name="category" id="category" >
                    </select>
-            </form>
-            <hr>
+				   <hr>
             <div id="addPhoto1">
-                <button id="validateButton">Valider</button>
+                <button type="submit" id="validateButton" >Valider</button>
             </div>
+            </form>
+            
 			</div>
         </div>
 	</aside>
