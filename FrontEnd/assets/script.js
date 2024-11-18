@@ -1,8 +1,22 @@
-let gallerimg = fetch("http://localhost:5678/api/works")
-  .then(response => response.json())
-  .then(data => {
+
+async function fetchGalleryData() {
+  try {
+    const response = await fetch("http://localhost:5678/api/works");
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json(); // Retourne les données JSON
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données:", error);
+    throw error;
+  }
+}
+
+async function loadGallery() {
+  try {
+    const data = await fetchGalleryData();
     const gallery = document.querySelector("#portfolio .gallery");
 
+    // Réinitialiser le contenu
+    gallery.innerHTML = "";
 
     data.forEach(item => {
       gallery.innerHTML += `
@@ -12,19 +26,40 @@ let gallerimg = fetch("http://localhost:5678/api/works")
         </figure>
       `;
     });
+  } catch (error) {
+    console.error("Erreur lors du chargement de la galerie:", error);
+  }
+}
+loadGallery();
 
-  })
-  .catch(error => console.error("Erreur:", error));
+async function fetchCategories() {
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Erreur lors de la récupération des catégories:", error);
+    throw error;
+  }
+}
 
-let filt = fetch("http://localhost:5678/api/categories")
-  .then(response => response.json())
-  .then(dataFil => {
-    const filters = document.querySelector("#portfolio #filt1")
+async function loadFilters() {
+  try {
+    const dataFil = await fetchCategories();  // Récupérer les catégories
+    const filters = document.querySelector("#portfolio #filt1");
 
-    if (window.sessionStorage.loged === "true") {
-      filters.style.display = 'none'; 
+    if (!filters) {
+      console.error("Le conteneur de filtres 'filt1' n'existe pas.");
+      return;
+    }
+
+    filters.innerHTML = "";
+
+    if (window.sessionStorage.loged !== "true") {
+      filters.innerHTML += `<button id="all" data-category="all">Tous</button>`;
     } else {
-      filters.innerHTML += `<button id="all" data-category="all">Tous</button>`;}
+      filters.style.display = 'none';  // Masquer les filtres si l'utilisateur est connecté
+    }
 
     dataFil.forEach(item => {
       filters.innerHTML += `
@@ -34,34 +69,34 @@ let filt = fetch("http://localhost:5678/api/categories")
 
     filters.addEventListener("click", (event) => {
       const category = event.target.getAttribute("data-category");
-
-
       const galleryItems = document.querySelectorAll("#portfolio .gallery figure");
 
-      document.querySelectorAll("#portfolio p button").forEach(filter => {
+    
+      document.querySelectorAll("#portfolio #filt1 button").forEach(filter => {
         filter.classList.remove("active");
       });
-
 
       event.target.classList.add("active");
 
       galleryItems.forEach(item => {
         if (category === "all" || item.getAttribute("data-category") === category) {
           item.style.display = "block";
-
-        }
-        else {
+        } else {
           item.style.display = "none";
-
         }
-
       });
-      
-    })
-  })
-  .catch(error => console.error("Erreur:", error));
+    });
 
-  //connexion//
+  } catch (error) {
+    console.error("Erreur lors du chargement des filtres:", error);
+  }
+}
+
+loadFilters(); 
+
+
+
+  // page après connexion//
   
   const pageConnect = window.sessionStorage.loged
   const login = document.getElementById('log');
@@ -95,7 +130,8 @@ if (window.sessionStorage.loged === "true") {
 } else {
   modif.style.display = 'none';}
  
-//modal//
+
+  //modal//
 
 
 let modal = null
@@ -104,7 +140,7 @@ const openModal = function(e){
   e.preventDefault()
   const target = document.querySelector(e.target.getAttribute('href')) 
   target.style.display = null
-  target.removeAttribute('aria-hidden')
+  target.removeAttribute('inert')
   target.setAttribute('aria-modal', 'true')
   modal = target
   modal.addEventListener('click', closeModal)
@@ -118,7 +154,7 @@ const closeModal = function(e){
   if (modal === null) return
   if (e) e.preventDefault()
   modal.style.display ="none"
-  modal.setAttribute('aria-hidden', 'true')
+  modal.setAttribute('inert', '')
   modal.removeAttribute('aria-modal')
   modal.removeEventListener('click', closeModal)
   modal.querySelector('.modal-close').removeEventListener('click', closeModal)
@@ -140,34 +176,46 @@ document.querySelectorAll('.js-modal').forEach(a => {
 //delete
 const token = window.sessionStorage.getItem('token');
 
-const deleteImage = (id, container) => {
-  fetch(`http://localhost:5678/api/works/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization':  `Bearer ${token}`,
-    }
-  })
-  .then(response => {
+async function deleteImage(id, container) {
+  try {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
     if (response.ok) {
-      container.remove(); 
+      container.remove();
+
       const galleryItem = document.querySelector(`#portfolio .gallery figure[data-id="${id}"]`);
       if (galleryItem) galleryItem.remove();
+
       console.log("Image supprimée avec succès.");
     } else {
       console.error("Erreur lors de la suppression de l'image.");
     }
-  })
-  .catch(error => console.error("Erreur:", error));
-};
+  } catch (error) {
+    console.error("Erreur:", error);
+  }
+}
 
+//ajouter gallery à la modal1//
 
-fetch("http://localhost:5678/api/works")
-  .then(response => response.json())
-  .then(data => {
+async function loadGalleryModal() {
+  try {
+    const data = await fetchGalleryData();
     const gall = document.getElementById("galModal");
 
+    if (!gall) {
+      console.error("Le conteneur 'galModal' n'existe pas.");
+      return;
+    }
+
+    
+    gall.innerHTML = "";
+
     data.forEach(item => {
-      
       const imgContainer = document.createElement('div');
       imgContainer.classList.add('img-container');
       imgContainer.innerHTML = `
@@ -177,40 +225,47 @@ fetch("http://localhost:5678/api/works")
         </figure>
       `;
 
-     gall.appendChild(imgContainer);
+      gall.appendChild(imgContainer);
 
       
       const deleteIcon = imgContainer.querySelector('.delete-icon');
       deleteIcon.addEventListener('click', (event) => {
-        event.stopPropagation();
+        event.stopPropagation();  // Empêcher la propagation de l'événement
         const imageId = event.target.getAttribute('data-id');
-        deleteImage(imageId, imgContainer); 
+        deleteImage(imageId, imgContainer);  // Supprimer l'image
       });
     });
-  })
-  .catch(error => console.error("Erreur:", error));
+  } catch (error) {
+    console.error("Erreur lors du chargement des images:", error);
+  }
+}
+
+loadGalleryModal();  
+
 
   //modal2
-  async function addModal() {
-    try {
-      const response = await fetch("http://localhost:5678/api/categories");
-      if (response.ok) {
-        const categories = await response.json();
-        const categoryOptions = categories.map(category => 
-          `<option value="${category.id}">${category.name}</option>`
-        ).join("");
-        
-        document.querySelector("#category").innerHTML = `<option value="" selected disabled hidden></option>${categoryOptions}`;
-      } else {
-        console.error("Erreur lors de la récupération des catégories");
-      }
-    } catch (error) {
-      console.error("Erreur réseau ou serveur :", error);
-    }
-  }
+
+async function addModal() {
+  try {
+    const categories = await fetchCategories();
     
-  
-  
+    const categoryOptions = categories.map(category => 
+      `<option value="${category.id}">${category.name}</option>`
+    ).join("");  // Transforme le tableau en chaîne de caractères
+    
+    
+    document.querySelector("#category").innerHTML = `
+      <option value="" selected disabled hidden></option>
+      ${categoryOptions}
+    `;
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du modal :", error);
+  }
+}
+
+addModal();
+
+    
 const addPhoto = document.querySelector("#addPhoto");
 const backMod = document.querySelector(".modal-back");
 
@@ -248,12 +303,53 @@ async function openModalGall(){
     modalAdd.style.display = "none";
 
     await addModal();
-
-  
+    addEventListenersToForm();
 } 
+
+function addEventListenersToForm() {
+  const titleInput = document.getElementById("title");
+  const categorySelect = document.getElementById("category");
+  const fileInput = document.getElementById("photoAdd");
+
+  if (titleInput) {
+    titleInput.addEventListener("input", updateValidateButtonState);
+  }
+
+  if (categorySelect) {
+    categorySelect.addEventListener("change", updateValidateButtonState);
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener("change", updateValidateButtonState);
+  }
+
+  updateValidateButtonState();
+}
+//chagement bouton valider//
+  function updateValidateButtonState() {
+  const titleInput = document.getElementById("title");
+  const categorySelect = document.getElementById("category");
+  const fileInput = document.getElementById("photoAdd");
+  const validateButton = document.getElementById("validateButton");
+
+  const isTitleFilled = titleInput && titleInput.value.trim() !== "";
+  const isCategorySelected = categorySelect && categorySelect.value !== "";
+  const isFileSelected = fileInput && fileInput.files.length > 0;
+
+  if (isTitleFilled && isCategorySelected && isFileSelected) {
+    validateButton.classList.add("active"); // Ajoutez la classe "active" (par exemple)
+    validateButton.disabled = false; // Activez le bouton si désactivé
+  } else {
+    validateButton.classList.remove("active"); // Retirez la classe
+    validateButton.disabled = true; // Désactivez le bouton
+  }
+}
+
+
 document.querySelectorAll(".modal-close").forEach(closeButton => {
   closeButton.addEventListener("click", closeModal);
 });
+
 
 
 
@@ -264,8 +360,6 @@ const backButton = document.querySelector(".modal-back");
 const closeButton = document.querySelector(".modal-close"); 
 
 
-
-  
 function handlePhotoUpload() {
   
   const styleAddContainer = document.getElementById("styleAddContainer");
@@ -307,17 +401,15 @@ function handlePhotoUpload() {
 
   async function setupAddPhotoForm() {
     const addPictureForm = document.querySelector(".modal2");
-  
-    
     addPictureForm.removeEventListener("submit", handleFormSubmit); 
     addPictureForm.addEventListener("submit", handleFormSubmit); 
   }
   
+  
+  
   async function handleFormSubmit(event) {
     event.preventDefault();
-    const submitButton = document.querySelector("#validateButton");
-    submitButton.disabled = true;
-  
+
     const fileInput = document.getElementById("photoAdd");
     const titleInput = document.getElementById("title");
     const categorySelect = document.getElementById("category");
@@ -327,15 +419,17 @@ function handlePhotoUpload() {
     const selectedCategory = categorySelect.value;
     let errorMessage = "";
   
+    
     if (!file) errorMessage += "Veuillez sélectionner une image.\n";
     if (!titleValue) errorMessage += "Veuillez saisir un titre.\n";
     if (!selectedCategory) errorMessage += "Veuillez sélectionner une catégorie.\n";
   
+    
     if (errorMessage) {
       alert(errorMessage);
-      submitButton.disabled = false;
       return;
     }
+  
   
     const formData = new FormData();
     formData.append("image", file);
@@ -343,6 +437,7 @@ function handlePhotoUpload() {
     formData.append("category", selectedCategory);
   
     try {
+
       const response = await fetch("http://localhost:5678/api/works", {
         method: "POST",
         headers: { Authorization: "Bearer " + token },
@@ -352,62 +447,69 @@ function handlePhotoUpload() {
       if (response.status !== 201) {
         const errorText = await response.text();
         console.error("Erreur lors de l'ajout de la photo : ", errorText);
+        return;
       } else {
         const data = await response.json();
         console.log("Données reçues : ", data);
   
         if (data && data.id && data.imageUrl && data.title && data.categoryId) {
-          const gallery = document.querySelector("#portfolio .gallery");
-          const existingImage = gallery.querySelector(`figure[data-id='${data.id}']`);
-          if (!existingImage) {
-            const newImageElement = document.createElement('figure');
-            newImageElement.setAttribute('data-id', data.id);
-            newImageElement.setAttribute('data-category', data.categoryId);
-            newImageElement.innerHTML = `
-              <img src="${data.imageUrl}" alt="${data.title}">
-              <figcaption>${data.title} - ${data.categoryId}</figcaption>
-            `;
-            gallery.appendChild(newImageElement);
-          }
-  
           
-          const modalGallery = document.getElementById("galModal");
-          const existingImageInModal = modalGallery.querySelector(`figure[data-id='${data.id}']`);
-          if (!existingImageInModal) {
-            const imgContainer = document.createElement('div');
-            imgContainer.classList.add('img-container');
-            imgContainer.innerHTML = `
-              <figure data-id="${data.id}" data-category="${data.categoryId}">
+          const categories = await fetchCategories();
+          const category = categories.find(cat => cat.id === parseInt(data.categoryId));
+          
+          // Ajouter image à la gallerie
+          if (category) {
+            
+            const gallery = document.querySelector("#portfolio .gallery");
+            const existingImage = gallery.querySelector(`figure[data-id='${data.id}']`);
+            if (!existingImage) {
+              const newImageElement = document.createElement('figure');
+              newImageElement.setAttribute('data-id', data.id);
+              newImageElement.setAttribute('data-category', data.categoryId);
+              newImageElement.innerHTML = `
                 <img src="${data.imageUrl}" alt="${data.title}">
-                <i class="fa-solid fa-trash-can delete-icon" data-id="${data.id}"></i>
-              </figure>
-            `;
-            modalGallery.appendChild(imgContainer);
+                <figcaption>${data.title} - ${category.name}</figcaption>
+              `;
+              gallery.appendChild(newImageElement);
+            }
   
-            // Configuration de l'icône de suppression
-            const deleteIcon = imgContainer.querySelector('.delete-icon');
-            deleteIcon.addEventListener('click', (event) => {
-              event.stopPropagation();
-              const imageId = event.target.getAttribute('data-id');
-              deleteImage(imageId, imgContainer);
-            });
+            // Ajouter l'image au modal
+            const modalGallery = document.getElementById("galModal");
+            const existingImageInModal = modalGallery.querySelector(`figure[data-id='${data.id}']`);
+            if (!existingImageInModal) {
+              const imgContainer = document.createElement('div');
+              imgContainer.classList.add('img-container');
+              imgContainer.innerHTML = `
+                <figure data-id="${data.id}" data-category="${data.categoryId}">
+                  <img src="${data.imageUrl}" alt="${data.title}">
+                  <i class="fa-solid fa-trash-can delete-icon" data-id="${data.id}"></i>
+                </figure>
+              `;
+              modalGallery.appendChild(imgContainer);
+  
+              const deleteIcon = imgContainer.querySelector('.delete-icon');
+              deleteIcon.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const imageId = event.target.getAttribute('data-id');
+                deleteImage(imageId, imgContainer);
+              });
+            }
+            
+            closeModal();  
+          } else {
+            console.error("La catégorie correspondante n'a pas été trouvée.");
           }
-  
-          closeModal();
         } else {
           console.error("Les données de l'image sont incomplètes ou invalides.");
         }
       }
     } catch (error) {
       console.error("Erreur réseau : ", error);
-    } finally {
-      submitButton.disabled = false;
     }
   }
+
   
-
-
-function resetAddPhotoModal() {
+  function resetAddPhotoModal() {
   styleAddContainer.innerHTML = `
     <div class="styleAdd" id="styleAddContainer">
       <label for="file"><i class="fa-regular fa-image"></i></label>
@@ -427,9 +529,7 @@ function resetAddPhotoModal() {
   `;
 
   addModal();
-
- 
-  handlePhotoUpload();
+   handlePhotoUpload();
   setupAddPhotoForm();
   
   const newAddPhotoButton = document.getElementById("addPhotoButton");
