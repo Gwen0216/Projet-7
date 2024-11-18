@@ -327,19 +327,21 @@ background: rgba(0, 0, 0, 0.09);
 
 }
 .modGallery {
-	
-	
 	background-color: white;
-	cursor: default;
-	overflow:auto;
+	cursor: default;  
+    padding: 20px;
 	
-	
+}
 
-}
 .modal-wrapper {
-	width: 630px;
-	height: 670px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 630px;
+    height: 670px; /* Hauteur fixe de la modale */
+    overflow: hidden; /* Empêche tout dépassement de la modale */
 }
+
 .modal-wrapper h1 {
 	display: flex;
 	justify-content: center;
@@ -348,7 +350,7 @@ background: rgba(0, 0, 0, 0.09);
 	font-weight: 400;
 	font-size: 26px;
 	color: black;
-	margin-top: 7%;
+	margin-top: 3%;
 }
 
 .modal-close {
@@ -358,49 +360,67 @@ background: rgba(0, 0, 0, 0.09);
 	border: none;
 	width: 100%;
 	margin: 0;
-	padding-top: 30px;
+	
 
 }
 .modal-close i {
 	cursor: pointer;
 	font-size: 24px;
 }
-.galleryModal {
-    flex: 1;
-    overflow-y: auto; 
-    padding: 20px;
-}
+
 #galModal img {
 	width: 77px;
 	min-height: 103px;
 	}
 
-#galModal {
-	display: grid;
-	grid-template-columns: 77px 77px 77px 77px 77px ;
-	row-gap: 30px;
-	column-gap: 10px;
-	justify-items: center;
-	align-items: center;
-	justify-content: center;
-	margin-top: 50px;
-	margin-bottom: 60px;
-	overflow:auto;
-}
+	#galModal {
+		display: grid;
+		grid-template-columns: repeat(5, 77px); /* 5 images par ligne */
+		row-gap: 30px;
+		column-gap: 10px;
+		justify-items: center;
+		align-items: center;
+		justify-content: center;
+		margin-top: 40px;
+		margin-bottom: 40px; /* Ajoute un espace pour que le bouton en bas ne chevauche pas le contenu */
+		height: 360px;
+		overflow-y: hidden;
+	}
+
 .modal-wrapper hr {
 	margin-top: 30px ;
 	width:420px ;
 }
-
-#addPhoto  {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top: 30px;
-	flex-direction: column;
-	position: sticky;
-	
+.galleryModal {
+    flex: 1; /* Prend tout l'espace disponible au centre */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 20px;
+    box-sizing: border-box;
 }
+
+#addPhoto {
+    position: sticky; /* Reste visible en bas de la modale */
+    bottom: 0; /* Aligné en bas de la modale */
+    background-color: white; /* Pour éviter qu'il ne chevauche des images */
+    z-index: 10; /* Toujours au-dessus du contenu défilable */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%; /* S'étend sur toute la largeur */
+}
+
+#addPhoto + hr {
+    position: sticky;
+    bottom: 50px; /* Position au-dessus du bouton d'ajout */
+    background-color: white;
+    margin: 0;
+    width: 100%;
+    z-index: 9;
+}
+
 #addPhoto button{
 	background-color: #1D6154;
 	color: white;
