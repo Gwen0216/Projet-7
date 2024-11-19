@@ -68,11 +68,15 @@ async function loadFilters() {
     });
 
     filters.addEventListener("click", (event) => {
+      
+      const button = event.target.closest("button[data-category]");
+      if (!button) return;
+      
       const category = event.target.getAttribute("data-category");
       const galleryItems = document.querySelectorAll("#portfolio .gallery figure");
 
     
-      document.querySelectorAll("#portfolio #filt1 button").forEach(filter => {
+      document.querySelectorAll("#portfolio  button").forEach(filter => {
         filter.classList.remove("active");
       });
 
