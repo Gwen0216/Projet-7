@@ -22,6 +22,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -30,9 +31,12 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #fffef8;
+	
 }
 ol, ul {
 	list-style: none;
+	
 }
 blockquote, q {
 	quotes: none;
@@ -45,6 +49,33 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+	
+}
+p {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+	}
+ button {
+	display: flex;
+	border: 1px, solid, #1D6154;
+	border-radius: 60px;
+	background-color: #fffef8;
+	color: #1D6154;
+	justify-content: center;
+	align-items: center;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 0px 20px 0px 20px;
+	margin: 0px 5px 30px 5px;
+	 height: 37px;
+
+	
+}
+ .active {
+	background-color: #1D6154;
+	color: white;
 }
 /** end reset css**/
 body {
@@ -52,11 +83,13 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	margin-top: 70px;
 }
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	
+	
 }
 section {
 	margin: 50px 0
@@ -82,7 +115,8 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
+	
 }
 nav ul {
 	display: flex;
@@ -183,6 +217,368 @@ input[type="submit"]{
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
+	height: 200px;
+	
 }
 
+#login {
+	width: 35%;
+margin: auto;
+}
+#login > * {
+	text-align: center;
+
+}
+#login h2{
+	margin-bottom: 20px;
+    margin-top: 150px;
+}
+#login label {
+	margin: 2em 0 1em 0;
+}
+#login form {
+	text-align: left;
+	margin-top:20px;
+	display: flex;
+	flex-direction: column;
+}
+a {
+    color: black;
+    text-decoration: none;
+}
+input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#pwd {
+	text-decoration: underline;
+}
+#error{
+	color: red;
+	margin-top: 30px;
+}
+.edit {
+	background-color: black;
+	color: white;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	
+}
+i {
+	padding-right: 10px;
+}
+
+.edit p {
+	margin-top: 0;
+}
+
+#portfolio h2 {
+	margin-bottom: 50px;
+	margin-top: 80px;
+}
+#portfolio p {
+	margin-bottom: 30px;
+	padding-top: 10px;
+}
+
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	margin-left: 80px;
+    
+}
+
+#edit-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 30px;
+	margin-left: 20px;
+}
+#edit-button i {
+    margin-right: 1px; 
+	
+}
+
+
+
+.modal {
+position: fixed;
+display: flex;
+align-items: center;
+justify-content: center;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.09);
+
+}
+.modGallery {
+	background-color: white;
+	cursor: default;  
+    padding: 20px;
+	
+}
+
+.modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 630px;
+    height: 670px; /* Hauteur fixe de la modale */
+    overflow: hidden; /* Empêche tout dépassement de la modale */
+}
+
+.modal-wrapper h1 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
+	color: black;
+	margin-top: 30px;
+}
+
+.modal-close {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	border: none;
+	width: 100%;
+	margin: 0;
+	
+
+}
+.modal-close i {
+	cursor: pointer;
+	font-size: 24px;
+}
+
+#galModal img {
+	width: 77px;
+	min-height: 103px;
+	}
+
+	#galModal {
+		display: grid;
+		grid-template-columns: repeat(5, 77px); /* 5 images par ligne */
+		row-gap: 30px;
+		column-gap: 10px;
+		justify-items: center;
+		align-items: center;
+		justify-content: center;
+		margin-top: 40px;
+		margin-bottom: 40px; /* Ajoute un espace pour que le bouton en bas ne chevauche pas le contenu */
+		height: 360px;
+		overflow-y: hidden;
+	}
+
+.modal-wrapper hr {
+	margin-top: 30px ;
+	width:420px ;
+}
+.galleryModal {
+    flex: 1; /* Prend tout l'espace disponible au centre */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#addPhoto {
+    position: sticky; /* Reste visible en bas de la modale */
+    bottom: 0; /* Aligné en bas de la modale */
+    background-color: white; /* Pour éviter qu'il ne chevauche des images */
+    z-index: 10; /* Toujours au-dessus du contenu défilable */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%; /* S'étend sur toute la largeur */
+}
+
+#addPhoto + hr {
+    position: sticky;
+    bottom: 50px; /* Position au-dessus du bouton d'ajout */
+    background-color: white;
+    margin: 0;
+    width: 100%;
+    z-index: 9;
+}
+
+#addPhoto button{
+	background-color: #1D6154;
+	color: white;
+	width: 237px;
+	height: 36px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	cursor: pointer;
+	
+	
+}
+.img-container {
+	position: relative;
+	display: inline-block;
+}
+
+ .img-container img {
+	display: block;
+ }
+
+ .img-container i {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	font-size: 11px;
+	background-color: black;
+	color: white;
+	cursor: pointer;
+	padding: 4px;
+
+ }
+#add-photo-form {
+	text-align: left;
+	margin-top:50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	
+ }
+
+.modal-content hr {
+margin-top: 50px;
+}
+.modal-content label {
+	width:420px;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+}
+
+ #add-photo-form select {
+	width: 420px;
+	height: 51px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+ }
+ #add-photo-form label  {
+	margin: 2em 0 1em 0;
+	margin-top: 10px;
+
+ }
+ #add-photo-form input {
+	width: 420px;
+	height: 51px;
+ }
+
+
+ .fa-image:before {
+	font-size: 76px;
+	color: #b9c5cc;
+	
+ }
+ #styleAddContainer img {
+	max-width: 420px;
+	max-height: 169px;
+
+ }
+ .styleAdd {
+	background-color: #e8f1f6;
+	width: 420px;
+	height: 169px;
+	display: flex;
+	flex-direction: column;
+	justify-content:center ;
+	align-items: center;
+	 }
+ #photoAdd {
+	display: none;
+}
+#addPhotoButton {
+	width: 173px;
+	height: 36px;
+	background-color: #cbd6dc;
+	color: #306685;
+	font-family: 'Work Sans';
+	font-weight: 500;
+	font-size: 14px;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+.styleAdd label {
+	display:flex ;
+	align-items: center;
+	justify-content: center;
+}
+.styleAdd p {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 10px;
+}
+
+.modal2 {
+	display: none;
+}
+#addPhoto1 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+#validateButton {
+	background-color: #A7A7A7;
+	color: white;
+	width: 237px;
+	height: 36px;
+	
+}
+.contModal2 {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.modal-back {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: none;
+    width: 100%;
+    margin: 0;
+    padding-top: 30px;
+	font-size: 21px;
+}
+#validateButton {
+	background-color:#a7a7a7;
+	color: white;
+	cursor: not-allowed;
+	width: 237px;
+	height: 36px;
+	border-color: #A7A7A7;
+  }
+  
+  #validateButton.active {
+	background-color: #1D6154;
+	color: white;
+	cursor: pointer;
+  }

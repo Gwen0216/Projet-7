@@ -8,16 +8,19 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/28c40469d1.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="assets/notif/style.css"></link>
+	<script src="assets/notif/index.var.js"></script>
 </head>
 <body>
-<header>
+<header>	
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
+			<li><a href="#portfolio">projets</a></li>
+			<li><a href="#contact">contact</a></li>
+			<li><a id="log" href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -35,54 +38,58 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<p></p>
-		<div class="gallery">
-			<figure>
-				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-				<figcaption>Abajour Tahina</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-v.png" alt="Appartement Paris V">
-				<figcaption>Appartement Paris V</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/restaurant-sushisen-londres.png" alt="Restaurant Sushisen - Londres">
-				<figcaption>Restaurant Sushisen - Londres</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/la-balisiere.png" alt="Villa “La Balisiere” - Port Louis">
-				<figcaption>Villa “La Balisiere” - Port Louis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/structures-thermopolis.png" alt="Structures Thermopolis">
-				<figcaption>Structures Thermopolis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-x.png" alt="Appartement Paris X">
-				<figcaption>Appartement Paris X</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/le-coteau-cassis.png" alt="Pavillon “Le coteau” - Cassis">
-				<figcaption>Pavillon “Le coteau” - Cassis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/villa-ferneze.png" alt="Villa Ferneze - Isola d’Elba">
-				<figcaption>Villa Ferneze - Isola d’Elba</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-xviii.png" alt="Appartement Paris XVIII">
-				<figcaption>Appartement Paris XVIII</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/bar-lullaby-paris.png" alt="Bar “Lullaby” - Paris">
-				<figcaption>Bar “Lullaby” - Paris</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
-				<figcaption>Hotel First Arte - New Delhi</figcaption>
-			</figure>
+		<div id="pos" >
+			<h2>Mes Projets</h2>
+			<div id="edit-button">
+				<a href="#modal1" class="js-modal" id="modal">
+					<i class="fa-regular fa-pen-to-square"></i> Modifier
+				</a>
+            <aside id="modal1" class="modal" aria-hidden="true" role="dialog" style="display: none;">
+                <div class="modGallery">
+				<div class="modal-wrapper modal-stop">
+					<div class="galleryModal">
+					<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+                    <h1 >Galerie photo</h1>
+					<div id="galModal"></div>
+					<hr>
+					<div id="addPhoto">
+						<button >Ajouter une photo</button>
+					</div>
+				</div>
+				</div>	
+			<div class="modal2 modal-wrapper">
+				<div class="contModal2">	
+					<button class="modal-back"><i class="fa-solid fa-arrow-left"></i></button>
+            		<button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            	</div>
+            <h1>Ajout photo</h1>
+            <form id="add-photo-form" action="#" method="post" enctype="multipart/form-data">
+           		 <div class=styleAdd id="styleAddContainer">
+					<label for="file"><i class="fa-regular fa-image  "></i></label>
+                	<input  type="file" name="photo" id="photoAdd" accept="image/*">
+                	<button  type="button" id="addPhotoButton">+ ajouter photo</button>
+                	<p >jpg, png : 4mo max</p>
+				 </div>
+            		<label for="title">Titre</label>
+                	<input type="text" name="title" id="title">
+               	 	<label for="category">Catégorie</label>
+               	 	<select name="category" id="category" >
+                   </select>
+				   <hr>
+            <div id="addPhoto1">
+                <input type="submit" value="Valider" />
+            </div>
+            </form>
+            
+			</div>
+        </div>
+	</aside>
 		</div>
+		<p id="filt1"></p>
+	</div>
+	<div class="gallery">
+			</div>
+			
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
@@ -106,5 +113,6 @@
 		</ul>
 	</nav>
 </footer>
+<script src="./assets/script.js" defer></script>
 </body>
 </html>
