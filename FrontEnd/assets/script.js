@@ -22,7 +22,7 @@ async function loadGallery() {
       gallery.innerHTML += `
         <figure data-id="${item.id}" data-category="${item.category.id}">
           <img src="${item.imageUrl}" alt="${item.title}">
-          <figcaption>${item.title} - ${item.category.name}</figcaption>
+          <figcaption>${item.title} </figcaption>
         </figure>
       `;
     });
@@ -341,11 +341,11 @@ function addEventListenersToForm() {
   const isFileSelected = fileInput && fileInput.files.length > 0;
 
   if (isTitleFilled && isCategorySelected && isFileSelected) {
-    validateButton.classList.add("active"); // Ajoutez la classe "active" (par exemple)
-    validateButton.disabled = false; // Activez le bouton si désactivé
+    validateButton.classList.add("active"); 
+    validateButton.disabled = false; 
   } else {
-    validateButton.classList.remove("active"); // Retirez la classe
-    validateButton.disabled = true; // Désactivez le bouton
+    validateButton.classList.remove("active"); 
+    validateButton.disabled = true; 
   }
 }
 
@@ -472,7 +472,7 @@ function handlePhotoUpload() {
               newImageElement.setAttribute('data-category', data.categoryId);
               newImageElement.innerHTML = `
                 <img src="${data.imageUrl}" alt="${data.title}">
-                <figcaption>${data.title} - ${category.name}</figcaption>
+                <figcaption>${data.title} </figcaption>
               `;
               gallery.appendChild(newImageElement);
             }
