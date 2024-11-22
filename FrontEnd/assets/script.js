@@ -455,7 +455,9 @@ function handlePhotoUpload() {
       } else {
         const data = await response.json();
         console.log("Données reçues : ", data);
-  
+        let notifier = new AWN({});
+        notifier.success('Your custom message', {});
+        
         if (data && data.id && data.imageUrl && data.title && data.categoryId) {
           
           const categories = await fetchCategories();
